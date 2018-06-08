@@ -1,0 +1,31 @@
+def plus(a):
+    return a
+ 
+def main():
+    print plus(5)
+
+main()
+
+
+
+
+----------------------------
+
+call main
+jmp end
+
+
+
+plus:
+   mov ebp, esp   
+   
+   pop ebx
+   mov eax, ebx
+   ret		         # pop <>; jmp <>
+
+main:
+   push 5
+   call plus                           # push eip; jmp plus
+   print eax
+
+end:
