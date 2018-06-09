@@ -95,7 +95,10 @@ def mul_function(params, stack, var_dict):
         raise AsmException('SyntaxError: mul <variable>, <value>')
 
     try:
-        var_dict[variable] *= int(value)
+        if variable and value in var_dict:
+            var_dict[variable] *= var_dict[value]
+        else:
+            var_dict[variable] *= int(value)
     except KeyError:
         raise AsmException('SyntaxError: cannot multiply to a variable which that not exist')
 
@@ -206,11 +209,21 @@ def jz_function(params, stack, var_dict):
 
 
 def call_function(params, stack, var_dict):
-    pass
+    try:
+        any_func, = params
+    except ValueError:
+        raise AsmException('SyntaxError: call <function>')
+
+    var_dict['call_eip'] = var_dict['eip']
+
+    if any_func in var_dict:
+        var_dict['eip'] = var_dict[any_func] - 2
 
 
 def ret_function(params, stack, var_dict):
-    pass
+    _ = params
+
+    var_dict['eip'] = var_dict['call_eip']
 
 
 def execute_command(line, var_dict, stack):
@@ -243,7 +256,7 @@ def execute_command(line, var_dict, stack):
         'cmp': cmp_function,
         'jz': jz_function,
         'call': call_function,
-        'ret': ret_function
+        'ret': ret_function,
     }
 
     try:
