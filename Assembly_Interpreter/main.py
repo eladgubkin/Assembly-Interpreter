@@ -226,6 +226,94 @@ def ret_function(params, stack, var_dict):
     var_dict['eip'] = var_dict['call_eip']
 
 
+def not_function(params, stack, var_dict):
+    try:
+        var, = params
+    except ValueError:
+        raise AsmException('SyntaxError: not <variable>')
+
+    binary_list = []
+    if var in var_dict:
+        for number in bin(var_dict[var])[2:]:
+            if number is '1':
+                binary_list.append(0)
+
+            elif number is '0':
+                binary_list.append(1)
+
+        var_dict[var] = int(''.join(str(x) for x in binary_list), 2)
+
+
+def and_function(params, stack, var_dict):
+    try:
+        var1, var2 = params
+    except ValueError:
+        raise AsmException('SyntaxError: and <variable>, <variable>')
+
+    if var1 and var2 in var_dict:
+        var_dict[var1] = var_dict[var1] & var_dict[var2]
+
+
+def or_function(params, stack, var_dict):
+    try:
+        var1, var2 = params
+    except ValueError:
+        raise AsmException('SyntaxError: or <variable>, <variable>')
+
+    if var1 and var2 in var_dict:
+        var_dict[var1] = var_dict[var1] | var_dict[var2]
+
+
+def xor_function(params, stack, var_dict):
+    try:
+        var1, var2 = params
+    except ValueError:
+        raise AsmException(' ')
+
+    if var1 and var2 in var_dict:
+        var_dict[var1] = var_dict[var1] ^ var_dict[var2]
+
+
+def nand_function(params, stack, var_dict):
+    try:
+        var1, var2 = params
+    except ValueError:
+        raise AsmException('SyntaxError: nand <variable>, <variable>')
+
+    if var1 and var2 in var_dict:
+        x = var_dict[var1] & var_dict[var2]
+        binary_list = []
+
+        for number in bin(x)[2:]:
+            if number is '1':
+                binary_list.append(0)
+
+            elif number is '0':
+                binary_list.append(1)
+
+        var_dict[var1] = int(''.join(str(x) for x in binary_list), 2)
+
+
+def shr_function(params, stack, var_dict):
+    try:
+        variable, count = params
+    except ValueError:
+        raise AsmException('SyntaxError: shr <variable>, <count>')
+
+    if variable in var_dict:
+        var_dict[variable] = var_dict[variable] >> int(count)
+
+
+def shl_function(params, stack, var_dict):
+    try:
+        variable, count = params
+    except ValueError:
+        raise AsmException('SyntaxError: shl <variable>, <count>')
+
+    if variable in var_dict:
+        var_dict[variable] = var_dict[variable] << int(count)
+
+
 def execute_command(line, var_dict, stack):
     if line == '':
         return
@@ -257,6 +345,14 @@ def execute_command(line, var_dict, stack):
         'jz': jz_function,
         'call': call_function,
         'ret': ret_function,
+        'not': not_function,
+        'and': and_function,
+        'or': or_function,
+        'xor': xor_function,
+        'nand': nand_function,
+        'shr': shr_function,
+        'shl': shl_function
+
     }
 
     try:
