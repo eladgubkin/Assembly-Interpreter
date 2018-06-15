@@ -1,5 +1,5 @@
 mov eax, 222
 mov ebx, 200
 
-not eax
+shr eax, 1
 print eax
