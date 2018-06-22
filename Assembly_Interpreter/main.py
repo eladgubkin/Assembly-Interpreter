@@ -45,7 +45,7 @@ def add_function(params, stack, var_dict):
     if value.isdigit():
         var_dict[variable] += int(value)
 
-    elif value in var_dict:
+    elif variable and value in var_dict:
         var_dict[variable] += var_dict[value]
 
 
@@ -252,6 +252,9 @@ def and_function(params, stack, var_dict):
 
     if var1 and var2 in var_dict:
         var_dict[var1] = var_dict[var1] & var_dict[var2]
+
+    elif var1 in var_dict and var2.isdigit():
+        var_dict[var1] = var_dict[var1] & int(var2)
 
 
 def or_function(params, stack, var_dict):
