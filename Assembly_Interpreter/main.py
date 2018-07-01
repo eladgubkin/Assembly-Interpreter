@@ -30,9 +30,9 @@ def print_function(params, stack, var_dict):
         raise AsmException('SyntaxError: print <variable>')
 
     if variable in var_dict:
-        print var_dict[variable]
+        print(var_dict[variable])
     else:
-        print variable
+        print(variable)
 
 
 def add_function(params, stack, var_dict):
@@ -392,11 +392,11 @@ def main():
                     line = lines[var_dict['eip']]
                     execute_command(line, var_dict, stack)
                     var_dict['eip'] += 1
-            except AsmException as e:
-                print e.message
+            except AsmException:
+                raise AsmException()
 
     else:
-        print 'No file has been found'
+        print('No file has been found')
 
 
 if __name__ == '__main__':
