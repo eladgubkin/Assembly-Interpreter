@@ -59,8 +59,7 @@ def sub_function(params, stack, var_dict):
     try:
         var_dict[variable] -= int(value)
     except KeyError:
-        raise AsmException(
-            'SyntaxError: cannot subtract from a variable which that not exist')
+        raise AsmException('SyntaxError: cannot subtract from a variable which that not exist')
 
 
 def write_function(params, stack, var_dict):
@@ -74,8 +73,7 @@ def write_function(params, stack, var_dict):
         with open(filename, 'w') as write_file:
             write_file.write(str(var_dict[variable]))
     except KeyError:
-        raise AsmException(
-            "NameError: name '{}' is not defined".format(variable))
+        raise AsmException("NameError: name '{}' is not defined".format(variable))
 
 
 def load_function(params, stack, var_dict):
@@ -102,8 +100,7 @@ def mul_function(params, stack, var_dict):
         else:
             var_dict[variable] *= int(value)
     except KeyError:
-        raise AsmException(
-            'SyntaxError: cannot multiply to a variable which that not exist')
+        raise AsmException('SyntaxError: cannot multiply to a variable which that not exist')
 
 
 def inc_function(params, stack, var_dict):
@@ -116,8 +113,7 @@ def inc_function(params, stack, var_dict):
     try:
         var_dict[variable] += 1
     except KeyError:
-        raise AsmException(
-            'SyntaxError: cannot increase a variable that does not exist')
+        raise AsmException('SyntaxError: cannot increase a variable that does not exist')
 
 
 def dec_function(params, stack, var_dict):
@@ -130,8 +126,7 @@ def dec_function(params, stack, var_dict):
     try:
         var_dict[variable] -= 1
     except KeyError:
-        raise AsmException(
-            'SyntaxError: cannot decrease from a variable that does not exist')
+        raise AsmException('SyntaxError: cannot decrease from a variable that does not exist')
 
 
 def nop_function(params, stack, var_dict):
@@ -153,8 +148,7 @@ def push_function(params, stack, var_dict):
         stack.push(int(variable))
 
     else:
-        raise AsmException(
-            "NameError: name '{}' is not defined".format(variable))
+        raise AsmException("NameError: name '{}' is not defined".format(variable))
 
 
 def pop_function(params, stack, var_dict):
